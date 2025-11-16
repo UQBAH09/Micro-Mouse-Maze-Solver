@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "BFS.cpp"
+#include "DFS.cpp"
 
 using namespace std;
 
@@ -53,66 +54,32 @@ vector<vector<Cell>> maze = {
     }
 };
 
-void printMaze(corr start, corr goal) {
-    for (int r = 0; r < ROW; r++) {
-        
-        // Print NORTH walls
-        for (int c = 0; c < COL; c++) {
-            cout << "+";
-            if (maze[r][c].isWall(0))
-                cout << "---";
-            else
-                cout << "   ";
-        }
-        cout << "+\n";
-
-        // Print WEST walls + cell contents
-        for (int c = 0; c < COL; c++) {
-
-            // West wall
-            if (maze[r][c].isWall(3))
-                cout << "|";
-            else
-                cout << " ";
-
-            // Cell content
-            if (r == start.row && c == start.col)
-                cout << " S ";
-            else if (r == goal.row && c == goal.col)
-                cout << " G ";
-            else if (maze[r][c].isPath())        // final shortest path
-                cout << " ^ ";
-            else if (maze[r][c].isExplored())    // explored but not final path
-                cout << " * ";
-            else
-                cout << " . ";
-        }
-
-        // Rightmost wall
-        cout << "|\n";
-    }
-
-    // Bottom border
-    for (int c = 0; c < COL; c++) {
-        cout << "+";
-        if (maze[ROW-1][c].isWall(1))
-            cout << "---";
-        else
-            cout << "   ";
-    }
-    cout << "+\n";
-}
-
 int main() {
     corr start(0,0);
     corr goal(4,4);
+    
+    // Orignal Maze
+    cout << "Orignal Maze: " << endl;
+    printMaze(start,goal, maze, ROW, COL);
 
+    // BFS
+    cout << "BFS: " << endl;
     if (BFS(start, goal, maze, ROW, COL)){
         cout << "Path found!\n";
-        printMaze(start,goal);
+        printMaze(start,goal, maze, ROW, COL);
     }
-    else
-        cout << "No path.\n";
+    else cout << "No path.\n";
+
+    //clearing maze
+    clearMaze(maze, ROW, COL);
+
+    //DFS
+    cout << "DFS: " << endl;
+    if (DFS(start, goal, maze, ROW, COL)){
+        cout << "Path found!\n";
+        printMaze(start,goal, maze, ROW, COL);
+    }
+    else cout << "No path.\n";
 
     return 0;
 }

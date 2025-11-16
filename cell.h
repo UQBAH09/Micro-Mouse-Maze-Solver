@@ -1,3 +1,6 @@
+#ifndef CELL_H
+#define CELL_H
+
 class Cell {
     bool wall[4];
     bool path;
@@ -22,4 +25,11 @@ public:
 
     void setExplored() { explored = true; }
     bool isExplored() const { return explored; }
+
+    void clear(){
+        path = false;
+        explored = false;
+    }
 };
+
+#endif

@@ -1,23 +1,11 @@
 #include <vector>
 #include <queue>
 #include "cell.h"
+#include "helper.h"
+
 using namespace std;
 
-struct corr {
-    int row, col;
-    corr(int r = -1, int c = -1) : row(r), col(c) {}
-};
-
-bool inBounds(corr c, int ROW, int COL) {
-    return c.row >= 0 && c.row < ROW && c.col >= 0 && c.col < COL;
-}
-
-bool isEqual(corr a, corr b) {
-    return a.row == b.row && a.col == b.col;
-}
-
 bool BFS(corr start, corr goal, vector<vector<Cell>>& maze, int ROW, int COL) {
-
     // parent for path reconstruction
     vector<vector<corr>> parent(ROW, vector<corr>(COL, corr(-1,-1)));
     queue<corr> q;
