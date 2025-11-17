@@ -2,6 +2,7 @@
 #include <vector>
 #include "BFS.cpp"
 #include "DFS.cpp"
+#include "FFS.cpp"
 
 using namespace std;
 
@@ -76,6 +77,17 @@ int main() {
     //DFS
     cout << "DFS: " << endl;
     if (DFS(start, goal, maze, ROW, COL)){
+        cout << "Path found!\n";
+        printMaze(start,goal, maze, ROW, COL);
+    }
+    else cout << "No path.\n";
+
+    //clearing maze
+    clearMaze(maze, ROW, COL);
+
+    //FFS
+    cout << "FFS: " << endl;
+    if (FFS(start, goal, maze, ROW, COL)){
         cout << "Path found!\n";
         printMaze(start,goal, maze, ROW, COL);
     }

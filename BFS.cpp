@@ -30,25 +30,27 @@ bool BFS(corr start, corr goal, vector<vector<Cell>>& maze, int ROW, int COL) {
 
         // Directions: N, S, E, W
         corr neigh[4] = {
-            corr(cur.row - 1, cur.col),  // north
-            corr(cur.row + 1, cur.col),  // south
-            corr(cur.row,     cur.col + 1),  // east
-            corr(cur.row,     cur.col - 1)   // west
+            corr(cur.row - 1, cur.col),      // north  (0)
+            corr(cur.row + 1, cur.col),      // south  (1)
+            corr(cur.row,     cur.col + 1),  // east   (2)
+            corr(cur.row,     cur.col - 1)   // west   (3)
         };
 
         for (int i = 0; i < 4; i++) {
             corr nxt = neigh[i];
 
-            // check wall + bounds
-            if (!maze[cur.row][cur.col].isWall(i) && inBounds(nxt, ROW, COL)) {
+            // 1) bounds check first
+            if (!inBounds(nxt, ROW, COL)) continue;
 
-                // only visit if not already explored
-                if (!maze[nxt.row][nxt.col].isExplored()) {
-                    maze[nxt.row][nxt.col].setExplored();  // mark explored/visited
-                    parent[nxt.row][nxt.col] = cur;
-                    q.push(nxt);
-                }
-            }
+            // 2) wall check from current cell in direction i
+            if (maze[cur.row][cur.col].isWall(i)) continue;
+
+            // 3) already visited?
+            if (maze[nxt.row][nxt.col].isExplored()) continue;
+
+            maze[nxt.row][nxt.col].setExplored();  // mark explored/visited
+            parent[nxt.row][nxt.col] = cur;
+            q.push(nxt);
         }
     }
     return false; // no path

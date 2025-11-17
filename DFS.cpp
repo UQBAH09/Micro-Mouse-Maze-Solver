@@ -28,14 +28,14 @@ bool DFS(corr cur, corr goal, vector<vector<Cell>>& maze, int ROW, int COL) {
         corr nxt = neigh[i];
 
         // check wall and bounds
-        if (!maze[cur.row][cur.col].isWall(i) && inBounds(nxt, ROW, COL)) {
-            if (!maze[nxt.row][nxt.col].isExplored()) {
-                if (DFS(nxt, goal, maze, ROW, COL)) {
-                    // If from this neighbor we can reach the goal
-                    maze[cur.row][cur.col].setpath();
-                    return true;
-                }
-            }
+        if (maze[cur.row][cur.col].isWall(i)) continue;
+        if(!inBounds(nxt, ROW, COL)) continue;
+        if (maze[nxt.row][nxt.col].isExplored()) continue;
+        
+        if (DFS(nxt, goal, maze, ROW, COL)) {
+            // If from this neighbor we can reach the goal
+            maze[cur.row][cur.col].setpath();
+            return true;
         }
     }
     return false;

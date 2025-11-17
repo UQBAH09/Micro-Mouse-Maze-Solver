@@ -5,8 +5,9 @@ class Cell {
     bool wall[4];
     bool path;
     bool explored;
+    int distance;
 public:
-    Cell(bool north = false, bool south = false, bool east = false, bool west = false): path(false), explored(false) 
+    Cell(bool north = false, bool south = false, bool east = false, bool west = false): path(false), explored(false), distance(-1) 
     {
         wall[0] = north;
         wall[1] = south;
@@ -30,6 +31,9 @@ public:
         path = false;
         explored = false;
     }
+
+    void setDistance(int d){distance = d;}
+    int getDisatance() const {return distance; }
 };
 
 #endif
