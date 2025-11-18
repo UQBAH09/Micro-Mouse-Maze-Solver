@@ -28,8 +28,55 @@ void clearMaze(vector<vector<Cell>>& maze, int ROW, int COL){
     }
 }
 
-void printMaze(corr start, corr goal, vector<vector<Cell>>& maze, int ROW, int COL) {
-    
+void printMaze(corr start, corr goal, const vector<vector<Cell>>& maze, int ROW, int COL) 
+{
+    cout << "\n";
+    cout << "Legend: S=Start  G=Goal  P=Path  E=Explored  .=Unvisited\n\n";
+
+    for (int r = 0; r < ROW; r++) {
+
+        // ---------- TOP WALLS OF ROW ----------
+        for (int c = 0; c < COL; c++) {
+            cout << "+";
+            if (maze[r][c].isWall(0)) cout << "---"; // north wall
+            else cout << "   ";
+        }
+        cout << "+\n";
+
+        // ---------- LEFT WALL + CELL CONTENT ----------
+        for (int c = 0; c < COL; c++) {
+
+            // Left wall
+            if (maze[r][c].isWall(3)) cout << "|";  // west wall
+            else cout << " ";
+
+            // Cell content
+            if (r == start.row && c == start.col) cout << " S ";
+            else if (r == goal.row && c == goal.col) cout << " G ";
+            else if (maze[r][c].isPath()) cout << " P ";
+            else if (maze[r][c].isExplored()) cout << " E ";
+            else cout << " . ";
+
+            // Last column right wall
+            if (c == COL - 1) {
+                if (maze[r][c].isWall(2)) cout << "|";  // east wall
+                else cout << " ";
+            }
+        }
+        cout << "\n";
+    }
+
+    // ---------- BOTTOM WALL OF LAST ROW ----------
+    for (int c = 0; c < COL; c++) {
+        cout << "+";
+        if (maze[ROW-1][c].isWall(1)) cout << "---"; // south wall
+        else cout << "   ";
+    }
+    cout << "+\n\n";
 }
+
+
+
+
 
 #endif
