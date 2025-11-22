@@ -2,8 +2,8 @@
 #define HELPER_H
 
 #include <iostream>
-using namespace std;
 #include "cell.h"
+using namespace std;
 
 struct corr {
     int row, col;
@@ -35,7 +35,7 @@ void printMaze(corr start, corr goal, const vector<vector<Cell>>& maze, int ROW,
 
     for (int r = 0; r < ROW; r++) {
 
-        // ---------- TOP WALLS OF ROW ----------
+        // TOP WALLS OF ROW
         for (int c = 0; c < COL; c++) {
             cout << "+";
             if (maze[r][c].isWall(0)) cout << "---"; // north wall
@@ -43,7 +43,7 @@ void printMaze(corr start, corr goal, const vector<vector<Cell>>& maze, int ROW,
         }
         cout << "+\n";
 
-        // ---------- LEFT WALL + CELL CONTENT ----------
+        //LEFT WALL + CELL CONTENT
         for (int c = 0; c < COL; c++) {
 
             // Left wall
@@ -66,7 +66,7 @@ void printMaze(corr start, corr goal, const vector<vector<Cell>>& maze, int ROW,
         cout << "\n";
     }
 
-    // ---------- BOTTOM WALL OF LAST ROW ----------
+    //  BOTTOM WALL OF LAST ROW
     for (int c = 0; c < COL; c++) {
         cout << "+";
         if (maze[ROW-1][c].isWall(1)) cout << "---"; // south wall
@@ -74,6 +74,66 @@ void printMaze(corr start, corr goal, const vector<vector<Cell>>& maze, int ROW,
     }
     cout << "+\n\n";
 }
+
+void printDistance(const vector<vector<Cell>>& maze, int ROW, int COL) 
+{
+    cout << "\n";
+
+    for (int r = 0; r < ROW; r++) {
+
+        // TOP WALLS OF ROW
+        for (int c = 0; c < COL; c++) {
+            cout << "+";
+            if (maze[r][c].isWall(0)) cout << "---";  
+            else cout << "   ";
+        }
+        cout << "+\n";
+
+        // LEFT WALL + CELL CONTENT
+        for (int c = 0; c < COL; c++) {
+
+            // Left wall
+            if (maze[r][c].isWall(3)) cout << "|";
+            else cout << " ";
+
+            // Distance Formatting (manual)
+            int d = maze[r][c].getDisatance();
+
+            if (d < 0) {
+                cout << "   ";                 // unexplored
+            }
+            else if (d < 10) {
+                cout << " " << d << " ";       // 1 digit → " d "
+            }
+            else if (d < 100) {
+                cout << " " << d;              // 2 digits → " dd"
+            }
+            else {
+                // just print the actual 3-digit number 
+                cout << d;
+            }
+
+            // Right wall of last column
+            if (c == COL - 1) {
+                if (maze[r][c].isWall(2)) cout << "|";
+                else cout << " ";
+            }
+        }
+        cout << "\n";
+    }
+
+    // BOTTOM WALL 
+    for (int c = 0; c < COL; c++) {
+        cout << "+";
+        if (maze[ROW - 1][c].isWall(1)) cout << "---";
+        else cout << "   ";
+    }
+    cout << "+\n\n";
+}
+
+
+
+
 
 
 
